@@ -14,4 +14,3 @@ def saveModel(model,modelname):
     with open(filepath,"w") as yamlfile:
         yaml.dump(metadata,yamlfile)
     print(f"Model saved to {filepath}")
-saveModel(model,"AvengersCNN")
