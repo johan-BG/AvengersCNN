@@ -9,6 +9,10 @@ class CNNmodel(nn.Module):
                outunits:int,
                 kernel:int,
                size):
+        self.args={"inunits":inunits,
+                "outunits":outunits,
+                "kernel":kernel,
+                "size":size}
         super().__init__()
         padding=(kernel-1)//2
         self.conv1=nn.Sequential(
