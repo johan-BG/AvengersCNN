@@ -3,16 +3,16 @@ Contains functionality for creating PyTorch DataLoaders for
 image classification data.
 """
 import os
-
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader,random_split
+import torch
 
-NUM_WORKERS = os.cpu_count()
+NUM_WORKERS = 0
 
 
 
 import torch
-import torchvision.transforms.functional as transforms
+import torchvision.transforms as transforms
 
 class ToCudaTransform:
     """
@@ -26,7 +26,7 @@ class ToCudaTransform:
                               before moving it to the specified device.
     """
 
-    def __init__(self, device, op=None):
+    def __init__(self, device="cuda", op=None):
         """
         Initializes the ToCudaTransform class.
 
@@ -69,12 +69,6 @@ class ToCudaTransform:
         # Move the tensor to the specified device (e.g., CUDA or CPU)
         return x.to(self.device)
 
-
-
-from torch.utils.data import DataLoader, random_split
-from torchvision import datasets, transforms
-import torch
-
 def create_dataloaders(
     train_dir: str,
     transform: transforms.Compose,
@@ -100,7 +94,7 @@ def create_dataloaders(
             Where class_names is a list of the target classes.
         
     Example usage:
-        train_dataloader, test_dataloader, class_names = \
+        train_dataloader, test_dataloader, class_names = 
             create_dataloaders(train_dir=path/to/train_dir,
                                test_dir=path/to/test_dir,
                                transform=some_transform,
@@ -153,5 +147,6 @@ def create_dataloaders(
         num_workers=num_workers,
         pin_memory=pin_memory,
     )
+    print("data loaded")
 
     return train_dataloader, test_dataloader, class_names, class_dict
