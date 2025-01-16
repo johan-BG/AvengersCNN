@@ -4,7 +4,8 @@ Utility functions to make predictions.
 Main reference for code creation: https://www.learnpytorch.io/06_pytorch_transfer_learning/#6-make-predictions-on-images-from-the-test-set 
 """
 import torch
-import torchvision
+import random
+from pathlib import Path 
 from torchvision import transforms
 import matplotlib.pyplot as plt
 import argparse 
@@ -17,12 +18,17 @@ from data_setup import ToCudaTransform
 # Set device
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
+# Set data path
+datapath=Path("data")
+total_data_path=list(datapath.glob("*\*.png")) 
+
 #Set argparse
 parser=argparse.ArgumentParser()
 parser.add_argument("--model",
                     default="AvengersCNN",
                     help="model name to use for prediction filepath")
 parser.add_argument("--image",
+                    default=random.choice(total_data_path),
                     help="target image filepath to predict on")
 parser.add_argument("--transform",
                     type=import_transform,
@@ -36,7 +42,7 @@ args=parser.parse_args()
 # Function created in: https://www.learnpytorch.io/06_pytorch_transfer_learning/#6-make-predictions-on-images-from-the-test-set
 def pred_and_plot_image(
     model: str,
-    image_path: str,
+    image_path,
     transform_list = None,
     device: torch.device = device,
 ):
